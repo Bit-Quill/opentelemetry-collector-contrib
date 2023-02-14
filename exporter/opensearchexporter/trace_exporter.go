@@ -36,9 +36,6 @@ func newTracesExporter(logger *zap.Logger, cfg *Config) (tracesExporter, error) 
 		return nil, err
 	}
 
-	if cfg.Mapping.Mode == "sso" {
-		return newSSOTracesExporter(logger, cfg)
-	}
-	return newOpenSearchTracesExporter(logger, cfg)
+	return newSSOTracesExporter(logger, cfg)
 
 }
