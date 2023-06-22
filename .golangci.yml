@@ -286,7 +286,6 @@ issues:
         - exhaustive
     - path: prometheusexporter
       linters:
-      linters:
         - exhaustive
     - path: prometheusremotewriteexporter
       linters:

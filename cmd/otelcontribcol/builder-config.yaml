@@ -350,7 +350,7 @@ replaces:
   - github.com/open-telemetry/opentelemetry-collector-contrib/receiver/filereceiver => ../../receiver/filereceiver
   - github.com/open-telemetry/opentelemetry-collector-contrib/exporter/signalfxexporter => ../../exporter/signalfxexporter
   - github.com/open-telemetry/opentelemetry-collector-contrib/receiver/solacereceiver => ../../receiver/solacereceiver
-  - github.com/open-telemetry/opentelemetry-collector-contrib/receiver/iisreceiver => ../../receiver/iisreceiver
+  - github.com/open-telemetry/opentelemetry-collector-contrib/receiver/iiensreceiver => ../../receiver/iisreceiver
   - github.com/open-telemetry/opentelemetry-collector-contrib/receiver/bigipreceiver => ../../receiver/bigipreceiver
   - github.com/open-telemetry/opentelemetry-collector-contrib/processor/probabilisticsamplerprocessor => ../../processor/probabilisticsamplerprocessor
   - github.com/open-telemetry/opentelemetry-collector-contrib/exporter/fileexporter => ../../exporter/fileexporter
