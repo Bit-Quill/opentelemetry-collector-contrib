@@ -5,12 +5,12 @@ package opensearchexporter // import "github.com/open-telemetry/opentelemetry-co
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"go.opentelemetry.io/collector/component"
 	"go.opentelemetry.io/collector/exporter"
 	"go.opentelemetry.io/collector/exporter/exporterhelper"
-	"go.opentelemetry.io/collector/pdata/ptrace"
 )
 
 const (
@@ -49,10 +49,10 @@ func createTracesExporter(ctx context.Context,
 	set exporter.CreateSettings,
 	cfg component.Config) (exporter.Traces, error) {
 
-	return exporterhelper.NewTracesExporter(ctx, set, cfg, func(ctx context.Context, ld ptrace.Traces) error {
-		return nil
-	},
-		exporterhelper.WithShutdown(func(ctx context.Context) error {
-			return nil
-		}))
+	tracesExporter, err := newTracesExporter(set.Logger, cfg.(*Config))
+	if err != nil {
+		return nil, fmt.Errorf("cannot configure OpenSearch traces tracesExporter: %w", err)
+	}
+	return exporterhelper.NewTracesExporter(ctx, set, cfg, tracesExporter.pushTraceData,
+		exporterhelper.WithShutdown(tracesExporter.Shutdown))
 }
