@@ -206,8 +206,8 @@ func pushDocuments(ctx context.Context, logger *zap.Logger, index string, docume
 				zap.NamedError("reason", err))
 
 		default:
-			erroJson, _ := json.Marshal(resp.Error)
-			logger.Error(fmt.Sprintf("Drop docs: failed to index: %s", erroJson),
+			erroJSON, _ := json.Marshal(resp.Error)
+			logger.Error(fmt.Sprintf("Drop docs: failed to index: %s", erroJSON),
 				zap.Int("attempt", attempts),
 				zap.Int("status", resp.Status))
 		}
