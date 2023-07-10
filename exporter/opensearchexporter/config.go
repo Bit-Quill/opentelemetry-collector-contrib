@@ -5,15 +5,10 @@ package opensearchexporter // import "github.com/open-telemetry/opentelemetry-co
 
 import (
 	"errors"
-	"os"
 	"time"
 
 	"go.opentelemetry.io/collector/config/configopaque"
 	"go.opentelemetry.io/collector/config/configtls"
-)
-
-const (
-	defaultOpenSearchEnvName = "OPENSEARCH_URL"
 )
 
 // Config defines configuration for OpenSearch exporter.
@@ -107,9 +102,7 @@ var (
 // Validate validates the opensearch server configuration.
 func (cfg *Config) Validate() error {
 	if len(cfg.Endpoints) == 0 {
-		if os.Getenv(defaultOpenSearchEnvName) == "" {
-			return errConfigNoEndpoint
-		}
+		return errConfigNoEndpoint
 	}
 
 	for _, endpoint := range cfg.Endpoints {
