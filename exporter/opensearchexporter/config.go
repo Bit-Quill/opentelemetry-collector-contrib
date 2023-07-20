@@ -48,3 +48,13 @@ func (cfg *Config) Validate() error {
 	}
 	return multierr.Combine(multiErr...)
 }
+
+// withDefaultConfig create a new default configuration
+// and applies provided functions to it.
+func withDefaultConfig(fns ...func(*Config)) *Config {
+	cfg := newDefaultConfig().(*Config)
+	for _, fn := range fns {
+		fn(cfg)
+	}
+	return cfg
+}
