@@ -18,6 +18,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.opentelemetry.io/collector/component"
 	"go.opentelemetry.io/collector/config/configgrpc"
+	"go.opentelemetry.io/collector/config/confighttp"
 	"go.opentelemetry.io/collector/exporter"
 	"go.opentelemetry.io/collector/exporter/exportertest"
 	"go.opentelemetry.io/collector/exporter/otlpexporter"
@@ -51,6 +52,7 @@ import (
 	"github.com/open-telemetry/opentelemetry-collector-contrib/exporter/lokiexporter"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/exporter/mezmoexporter"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opencensusexporter"
+	"github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opensearchexporter"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/exporter/parquetexporter"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/exporter/prometheusexporter"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/exporter/pulsarexporter"
@@ -132,6 +134,16 @@ func TestDefaultExporters(t *testing.T) {
 				cfg := expFactories["opencensus"].CreateDefaultConfig().(*opencensusexporter.Config)
 				cfg.GRPCClientSettings = configgrpc.GRPCClientSettings{
 					Endpoint: endpoint,
+				}
+				return cfg
+			},
+		},
+		{
+			exporter: "opensearch",
+			getConfigFn: func() component.Config {
+				cfg := expFactories["opensearch"].CreateDefaultConfig().(*opensearchexporter.Config)
+				cfg.HTTPClientSettings = confighttp.HTTPClientSettings{
+					Endpoint: "http://" + endpoint,
 				}
 				return cfg
 			},
