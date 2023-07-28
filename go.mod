@@ -34,6 +34,7 @@ require (
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/lokiexporter v0.81.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/mezmoexporter v0.81.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opencensusexporter v0.81.0
+	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opensearchexporter v0.0.0-20230728014823-015d8dbb7e62
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/parquetexporter v0.81.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/prometheusexporter v0.81.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/prometheusremotewriteexporter v0.81.0
@@ -522,6 +523,7 @@ require (
 	github.com/opencontainers/runc v1.1.5 // indirect
 	github.com/opencontainers/runtime-spec v1.0.3-0.20220909204839-494a5a6aca78 // indirect
 	github.com/opencontainers/selinux v1.10.1 // indirect
+	github.com/opensearch-project/opensearch-go/v2 v2.3.0 // indirect
 	github.com/openshift/api v3.9.0+incompatible // indirect
 	github.com/openshift/client-go v0.0.0-20210521082421-73d9475a9142 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
@@ -660,7 +662,7 @@ require (
 	google.golang.org/genproto v0.0.0-20230629202037-9506855d4529 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20230629202037-9506855d4529 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230706204954-ccb25ca9f130 // indirect
-	google.golang.org/grpc v1.56.2 // indirect
+	google.golang.org/grpc v1.57.0 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
@@ -1114,3 +1116,5 @@ replace github.com/openshift/api v3.9.0+incompatible => github.com/openshift/api
 replace github.com/outcaste-io/ristretto v0.2.0 => github.com/outcaste-io/ristretto v0.2.1
 
 replace github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snowflakereceiver => ./receiver/snowflakereceiver
+
+replace github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opensearchexporter => ./exporter/opensearchexporter
