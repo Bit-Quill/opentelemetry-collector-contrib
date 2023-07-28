@@ -43,6 +43,7 @@ require (
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/lokiexporter v0.83.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/mezmoexporter v0.83.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opencensusexporter v0.83.0
+	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opensearchexporter v0.83.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/parquetexporter v0.83.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/prometheusexporter v0.83.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/prometheusremotewriteexporter v0.83.0
@@ -189,6 +190,7 @@ require (
 	go.opentelemetry.io/collector v0.83.0
 	go.opentelemetry.io/collector/component v0.83.0
 	go.opentelemetry.io/collector/config/configgrpc v0.83.0
+	go.opentelemetry.io/collector/config/confighttp v0.83.0
 	go.opentelemetry.io/collector/confmap v0.83.0
 	go.opentelemetry.io/collector/connector v0.83.0
 	go.opentelemetry.io/collector/connector/forwardconnector v0.83.0
@@ -547,6 +549,7 @@ require (
 	github.com/opencontainers/runc v1.1.5 // indirect
 	github.com/opencontainers/runtime-spec v1.1.0-rc.3 // indirect
 	github.com/opencontainers/selinux v1.11.0 // indirect
+	github.com/opensearch-project/opensearch-go/v2 v2.3.0 // indirect
 	github.com/openshift/api v3.9.0+incompatible // indirect
 	github.com/openshift/client-go v0.0.0-20210521082421-73d9475a9142 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
@@ -636,7 +639,6 @@ require (
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/collector/config/configauth v0.83.0 // indirect
 	go.opentelemetry.io/collector/config/configcompression v0.83.0 // indirect
-	go.opentelemetry.io/collector/config/confighttp v0.83.0 // indirect
 	go.opentelemetry.io/collector/config/confignet v0.83.0 // indirect
 	go.opentelemetry.io/collector/config/configopaque v0.83.0 // indirect
 	go.opentelemetry.io/collector/config/configtelemetry v0.83.0 // indirect
@@ -1145,3 +1147,5 @@ replace github.com/DataDog/datadog-agent/pkg/trace => github.com/DataDog/datadog
 
 // ambiguous import: found package cloud.google.com/go/compute/metadata in multiple modules
 replace cloud.google.com/go => cloud.google.com/go v0.110.2
+
+replace github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opensearchexporter => ../../exporter/opensearchexporter
