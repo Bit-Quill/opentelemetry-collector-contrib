@@ -492,6 +492,7 @@ require (
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/googlecloudexporter v0.83.0 // indirect
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/googlecloudpubsubexporter v0.83.0 // indirect
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/googlemanagedprometheusexporter v0.83.0 // indirect
+	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opensearchexporter v0.83.0 // indirect
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/prometheusexporter v0.83.0 // indirect
 	github.com/open-telemetry/opentelemetry-collector-contrib/extension/asapauthextension v0.83.0 // indirect
 	github.com/open-telemetry/opentelemetry-collector-contrib/extension/awsproxy v0.83.0 // indirect
@@ -529,6 +530,7 @@ require (
 	github.com/opencontainers/runc v1.1.5 // indirect
 	github.com/opencontainers/runtime-spec v1.1.0-rc.3 // indirect
 	github.com/opencontainers/selinux v1.11.0 // indirect
+	github.com/opensearch-project/opensearch-go/v2 v2.3.0 // indirect
 	github.com/openshift/api v3.9.0+incompatible // indirect
 	github.com/openshift/client-go v0.0.0-20210521082421-73d9475a9142 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
@@ -797,6 +799,8 @@ replace github.com/open-telemetry/opentelemetry-collector-contrib/exporter/lokie
 replace github.com/open-telemetry/opentelemetry-collector-contrib/exporter/mezmoexporter => ../../exporter/mezmoexporter
 
 replace github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opencensusexporter => ../../exporter/opencensusexporter
+
+replace github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opensearchexporter => ../../exporter/opensearchexporter
 
 replace github.com/open-telemetry/opentelemetry-collector-contrib/exporter/parquetexporter => ../../exporter/parquetexporter
 
