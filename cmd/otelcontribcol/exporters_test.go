@@ -10,7 +10,6 @@ package main
 import (
 	"context"
 	"errors"
-	"go.opentelemetry.io/collector/config/confighttp"
 	"path/filepath"
 	"runtime"
 	"testing"
@@ -19,6 +18,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.opentelemetry.io/collector/component"
 	"go.opentelemetry.io/collector/config/configgrpc"
+	"go.opentelemetry.io/collector/config/confighttp"
 	"go.opentelemetry.io/collector/exporter"
 	"go.opentelemetry.io/collector/exporter/exportertest"
 	"go.opentelemetry.io/collector/exporter/otlpexporter"
