@@ -5,10 +5,10 @@ networks:
 
 services:
   opensearch-node:
-#    image: opensearchproject/opensearch:latest
-    image: opensearchproject/opensearch-dashboards:latest
-#    container_name: opensearch-node
-    container_name: opensearch-node-dashboard
+    image: opensearchproject/opensearch:latest
+#    image: opensearchproject/opensearch-dashboards:latest
+    container_name: opensearch-node
+#    container_name: opensearch-node-dashboard
 
     environment:
       - cluster.name=opensearch-cluster # Name the cluster
@@ -27,7 +27,7 @@ services:
     ports:
       - "9200:9200"
       - "9600:9600"
-      - "5601:5601"
+#      - "5601:5601"
     networks:
       - otel-opensearch
 
