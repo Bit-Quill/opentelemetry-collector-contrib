@@ -8,6 +8,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"go.uber.org/zap"
 	"strings"
 	"time"
 
@@ -61,9 +62,10 @@ func (tbi *traceBulkIndexer) appendRetryTraceError(err error, trace ptrace.Trace
 	tbi.errs = append(tbi.errs, consumererror.NewTraces(err, trace))
 }
 
-func (tbi *traceBulkIndexer) submit(ctx context.Context, td ptrace.Traces) {
+func (tbi *traceBulkIndexer) submit(ctx context.Context, td ptrace.Traces, logger *zap.Logger) {
 	forEachSpan(td, func(resource pcommon.Resource, resourceSchemaURL string, scope pcommon.InstrumentationScope, scopeSchemaURL string, span ptrace.Span) {
 		payload, err := tbi.createJSON(resource, scope, scopeSchemaURL, span)
+		logger.Log(2, string(payload))
 		if err != nil {
 			tbi.appendPermanentError(err)
 		} else {
@@ -105,7 +107,7 @@ func (tbi *traceBulkIndexer) createJSON(
 	span ptrace.Span,
 ) ([]byte, error) {
 	sso := ssoSpan{}
-	sso.Attributes = span.Attributes().AsRaw()
+	sso.Attributes = attributesToMapAny(span.Attributes())
 	sso.DroppedAttributesCount = span.DroppedAttributesCount()
 	sso.DroppedEventsCount = span.DroppedEventsCount()
 	sso.DroppedLinksCount = span.DroppedLinksCount()
@@ -113,7 +115,7 @@ func (tbi *traceBulkIndexer) createJSON(
 	sso.Kind = span.Kind().String()
 	sso.Name = span.Name()
 	sso.ParentSpanID = span.ParentSpanID().String()
-	sso.Resource = resource.Attributes().AsRaw()
+	sso.Resource = attributesToMapString(resource.Attributes())
 	sso.SpanID = span.SpanID().String()
 	sso.StartTime = span.StartTimestamp().AsTime()
 	sso.Status.Code = span.Status().Code().String()
@@ -126,7 +128,7 @@ func (tbi *traceBulkIndexer) createJSON(
 		for i := 0; i < span.Events().Len(); i++ {
 			e := span.Events().At(i)
 			ssoEvent := &sso.Events[i]
-			ssoEvent.Attributes = e.Attributes().AsRaw()
+			ssoEvent.Attributes = attributesToMapString(e.Attributes())
 			ssoEvent.DroppedAttributesCount = e.DroppedAttributesCount()
 			ssoEvent.Name = e.Name()
 			ts := e.Timestamp().AsTime()
@@ -157,14 +159,14 @@ func (tbi *traceBulkIndexer) createJSON(
 	sso.InstrumentationScope.DroppedAttributesCount = scope.DroppedAttributesCount()
 	sso.InstrumentationScope.Version = scope.Version()
 	sso.InstrumentationScope.SchemaURL = schemaURL
-	sso.InstrumentationScope.Attributes = scope.Attributes().AsRaw()
+	sso.InstrumentationScope.Attributes = attributesToMapString(scope.Attributes())
 
 	if span.Links().Len() > 0 {
 		sso.Links = make([]ssoSpanLinks, span.Links().Len())
 		for i := 0; i < span.Links().Len(); i++ {
 			link := span.Links().At(i)
 			ssoLink := &sso.Links[i]
-			ssoLink.Attributes = link.Attributes().AsRaw()
+			ssoLink.Attributes = attributesToMapString(link.Attributes())
 			ssoLink.DroppedAttributesCount = link.DroppedAttributesCount()
 			ssoLink.TraceID = link.TraceID().String()
 			ssoLink.TraceState = link.TraceState().AsRaw()
@@ -194,8 +196,17 @@ func responseAsError(item opensearchutil.BulkIndexerResponseItem) error {
 	return errors.New(string(errorJSON))
 }
 
-func attributesToMap(attributes pcommon.Map) map[string]string {
+func attributesToMapString(attributes pcommon.Map) map[string]string {
 	m := make(map[string]string, attributes.Len())
+	attributes.Range(func(k string, v pcommon.Value) bool {
+		m[k] = v.AsString()
+		return true
+	})
+	return m
+}
+
+func attributesToMapAny(attributes pcommon.Map) map[string]any {
+	m := make(map[string]any, attributes.Len())
 	attributes.Range(func(k string, v pcommon.Value) bool {
 		m[k] = v.AsString()
 		return true

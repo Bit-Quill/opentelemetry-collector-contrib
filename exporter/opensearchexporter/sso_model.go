@@ -14,19 +14,19 @@ type dataStream struct {
 }
 
 type ssoSpanEvent struct {
-	Attributes             map[string]any `json:"attributes"`
-	DroppedAttributesCount uint32         `json:"droppedAttributesCount"`
-	Name                   string         `json:"name"`
-	ObservedTimestamp      *time.Time     `json:"observedTimestamp,omitempty"`
-	Timestamp              *time.Time     `json:"@timestamp,omitempty"`
+	Attributes             map[string]string `json:"attributes"`
+	DroppedAttributesCount uint32            `json:"droppedAttributesCount"`
+	Name                   string            `json:"name"`
+	ObservedTimestamp      *time.Time        `json:"observedTimestamp,omitempty"`
+	Timestamp              *time.Time        `json:"@timestamp,omitempty"`
 }
 
 type ssoSpanLinks struct {
-	Attributes             map[string]any `json:"attributes,omitempty"`
-	SpanID                 string         `json:"spanId,omitempty"`
-	TraceID                string         `json:"traceId,omitempty"`
-	TraceState             string         `json:"traceState,omitempty"`
-	DroppedAttributesCount uint32         `json:"droppedAttributesCount,omitempty"`
+	Attributes             map[string]string `json:"attributes,omitempty"`
+	SpanID                 string            `json:"spanId,omitempty"`
+	TraceID                string            `json:"traceId,omitempty"`
+	TraceState             string            `json:"traceState,omitempty"`
+	DroppedAttributesCount uint32            `json:"droppedAttributesCount,omitempty"`
 }
 
 type ssoSpan struct {
@@ -37,19 +37,19 @@ type ssoSpan struct {
 	EndTime                time.Time      `json:"endTime"`
 	Events                 []ssoSpanEvent `json:"events,omitempty"`
 	InstrumentationScope   struct {
-		Attributes             map[string]any `json:"attributes,omitempty"`
-		DroppedAttributesCount uint32         `json:"droppedAttributesCount"`
-		Name                   string         `json:"name"`
-		SchemaURL              string         `json:"schemaUrl"`
-		Version                string         `json:"version"`
+		Attributes             map[string]string `json:"attributes,omitempty"`
+		DroppedAttributesCount uint32            `json:"droppedAttributesCount"`
+		Name                   string            `json:"name"`
+		SchemaURL              string            `json:"schemaUrl"`
+		Version                string            `json:"version"`
 	} `json:"instrumentationScope,omitempty"`
-	Kind         string         `json:"kind"`
-	Links        []ssoSpanLinks `json:"links,omitempty"`
-	Name         string         `json:"name"`
-	ParentSpanID string         `json:"parentSpanId"`
-	Resource     map[string]any `json:"resource,omitempty"`
-	SpanID       string         `json:"spanId"`
-	StartTime    time.Time      `json:"startTime"`
+	Kind         string            `json:"kind"`
+	Links        []ssoSpanLinks    `json:"links,omitempty"`
+	Name         string            `json:"name"`
+	ParentSpanID string            `json:"parentSpanId"`
+	Resource     map[string]string `json:"resource,omitempty"`
+	SpanID       string            `json:"spanId"`
+	StartTime    time.Time         `json:"startTime"`
 	Status       struct {
 		Code    string `json:"code"`
 		Message string `json:"message"`
