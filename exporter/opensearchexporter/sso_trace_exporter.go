@@ -57,7 +57,7 @@ func (s *ssoTracesExporter) pushTraceData(ctx context.Context, td ptrace.Traces)
 	if startErr != nil {
 		return startErr
 	}
-	indexer.submit(ctx, td, s.telemetry.Logger)
+	indexer.submit(ctx, td)
 	indexer.close(ctx)
 	return indexer.joinedError()
 }
