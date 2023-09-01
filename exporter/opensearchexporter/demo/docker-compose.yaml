@@ -1,0 +1,78 @@
+version: "3"
+
+networks:
+  otel-opensearch:
+
+services:
+  opensearch-node:
+    image: opensearchproject/opensearch:latest
+#    image: opensearchproject/opensearch-dashboards:latest
+    container_name: opensearch-node
+#    container_name: opensearch-node-dashboard
+
+    environment:
+      - cluster.name=opensearch-cluster # Name the cluster
+      - node.name=opensearch-node # Name the node that will run in this container
+      - discovery.type=single-node # Nodes to look for when discovering the cluster
+      - bootstrap.memory_lock=true # Disable JVM heap memory swapping
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m" # Set min and max JVM heap sizes to at least 50% of system RAM
+      - "DISABLE_SECURITY_PLUGIN=true"
+    ulimits:
+      memlock:
+        soft: -1 # Set memlock to unlimited (no soft or hard limit)
+        hard: -1
+      nofile:
+        soft: 65536 # Maximum number of open files for the opensearch user - set to at least 65536
+        hard: 65536
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+#      - "5601:5601"
+    networks:
+      - otel-opensearch
+
+  otelcontribcol:
+    # Uncomment the next line to use a preexisting image
+    image: otelcontribcol:latest
+    container_name: otelcontribcol
+    command:
+      - "--config=/etc/otelcontribcol-config.yaml"
+      - "--set=service.telemetry.logs.level=INFO"
+    volumes:
+      - ./otelcontribcol-config.yaml:/etc/otelcontribcol-config.yaml
+    ports:
+      - "4317:4317"   # otlp receiver
+    depends_on:
+      - opensearch-node
+    networks:
+      - otel-opensearch
+
+  demo-client:
+    build:
+      dockerfile: Dockerfile
+      context: ../../../examples/demo/client
+    container_name: demo-client
+    restart: always
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=otelcontribcol:4317
+      - DEMO_SERVER_ENDPOINT=http://demo-server:7080/hello
+    depends_on:
+      - demo-server
+    networks:
+      - otel-opensearch
+
+  demo-server:
+    build:
+      dockerfile: Dockerfile
+      context: ../../../examples/demo/server
+    container_name: demo-server
+    restart: always
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=otelcontribcol:4317
+    ports:
+      - "7080"
+    depends_on:
+      - otelcontribcol
+    networks:
+      - otel-opensearch
+

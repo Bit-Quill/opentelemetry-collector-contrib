@@ -1,0 +1,37 @@
+processors:
+  batch:
+    send_batch_size: 100000
+    timeout: 5s
+  memory_limiter:
+    check_interval: 2s
+    limit_mib: 1800
+    spike_limit_mib: 500
+  resource:
+    attributes:
+      - key: service.name
+        value: "opensearch-exporter-demo"
+        action: upsert
+exporters:
+  opensearch:
+    http:
+      endpoint: http://opensearch-node:9200
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+extensions:
+  health_check:
+  pprof:
+  zpages:
+  memory_ballast:
+    size_mib: 1000
+
+service:
+  pipelines:
+    traces:
+      processors: [ memory_limiter, resource, batch ]
+      exporters: [ opensearch ]
+      receivers: [ otlp ]
