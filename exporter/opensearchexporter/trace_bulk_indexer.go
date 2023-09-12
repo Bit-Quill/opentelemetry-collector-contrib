@@ -113,7 +113,7 @@ func (tbi *traceBulkIndexer) createJSON(
 	sso.Kind = span.Kind().String()
 	sso.Name = span.Name()
 	sso.ParentSpanID = span.ParentSpanID().String()
-	sso.Resource = resource.Attributes().AsRaw()
+	sso.Resource = attributesToMapString(resource.Attributes())
 	sso.SpanID = span.SpanID().String()
 	sso.StartTime = span.StartTimestamp().AsTime()
 	sso.Status.Code = span.Status().Code().String()
@@ -192,6 +192,15 @@ func (tbi *traceBulkIndexer) processItemFailure(resp opensearchutil.BulkIndexerR
 func responseAsError(item opensearchutil.BulkIndexerResponseItem) error {
 	errorJSON, _ := json.Marshal(item.Error)
 	return errors.New(string(errorJSON))
+}
+
+func attributesToMapString(attributes pcommon.Map) map[string]string {
+	m := make(map[string]string, attributes.Len())
+	attributes.Range(func(k string, v pcommon.Value) bool {
+		m[k] = v.AsString()
+		return true
+	})
+	return m
 }
 
 func shouldRetryEvent(status int) bool {

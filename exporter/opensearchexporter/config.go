@@ -1,6 +1,6 @@
 // Copyright The OpenTelemetry Authors
 // SPDX-License-Identifier: Apache-2.0
-
+// nolint
 package opensearchexporter // import "github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opensearchexporter"
 
 import (
@@ -47,4 +47,14 @@ func (cfg *Config) Validate() error {
 		multiErr = append(multiErr, errNamespaceNoValue)
 	}
 	return multierr.Combine(multiErr...)
+}
+
+// withDefaultConfig create a new default configuration
+// and applies provided functions to it.
+func withDefaultConfig(fns ...func(*Config)) *Config {
+	cfg := newDefaultConfig().(*Config)
+	for _, fn := range fns {
+		fn(cfg)
+	}
+	return cfg
 }
